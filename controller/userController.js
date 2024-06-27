@@ -28,8 +28,8 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
     try {
         const { email, number, password } = req.body;
-        if(!email && !number || !password){
-            res.status(300).json({error:"plese chack input field"});
+        if (!email && !number || !password) {
+            res.status(400).json({ error: "plese chack input field" });
         }
         const result = await client.query('SELECT * FROM users WHERE email = $1 OR number = $2 ', [email, number]);
         if (result.rows.length === 0) {
@@ -49,6 +49,20 @@ exports.login = async (req, res) => {
         console.log("token is", token);
 
         res.status(201).json({ message: "login successful", token: token });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+exports.deleteAccount = async (req, res) => {
+    try {
+        const { number, email } = req.query;
+        if (!number && !email) {
+            res.status(400).json({ erorr: "please provide a email or number any of this" });
+        };
+        const result = await client.query('DELETE FROM users WHERE number = $1 OR email = $2', [number, email]);
 
     } catch (error) {
         console.log(error);

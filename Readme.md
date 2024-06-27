@@ -132,7 +132,7 @@ The Online Bookstore backend is a RESTful API that provides functionalities for 
 ## Installation
 1. Clone the repository:
     ```sh
-    git clone https://github.com/durgesh9669/online-bookstore-backend.git
+    git clone https://github.com/durgesh966/Online-Bookstore-Back-End-API.git
     cd online-bookstore-backend
     ```
 
