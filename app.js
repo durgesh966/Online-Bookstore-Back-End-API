@@ -34,10 +34,10 @@ app.get("/", (req, res) => {
 
 // routs 
 app.use("/user", userRoute);
-app.use("/admin", adminRoute);
-app.use("/book", bookRoute);
-app.use("/cart", cartRoute);
-app.use("/order", orderRoute);
+// app.use("/admin", adminRoute);
+// app.use("/book", bookRoute);
+// app.use("/cart", cartRoute);
+// app.use("/order", orderRoute);
 
 app.listen(port, () => {
     console.log(`server listening on port http://localhost:${port}`.bgGreen.blue);
