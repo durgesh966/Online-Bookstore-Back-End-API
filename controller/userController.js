@@ -1,7 +1,8 @@
 const client = require("../database/PostgreSQL");
 const bcrypt = require("bcrypt");
 const { jwtAuthMiddleware, generateToken } = require("./jwt");
-const sendEmail = require('../config/email');
+const sendEmail = require('../middleware/nodeMailer');
+const OTP = require("../middleware/otpGen");
 
 exports.register = async (req, res) => {
     try {
@@ -59,35 +60,50 @@ exports.login = async (req, res) => {
 
 exports.deleteAccount = async (req, res) => {
     try {
-        const { number, email } = req.query;
+        const { email, number } = req.query;
+
         if (!number && !email) {
-            res.status(400).json({ erorr: "please provide a email or number any of this" });
-        };
-        const result = await client.query('DELETE FROM users WHERE number = $1 OR email = $2', [number, email]);
+            return res.status(400).json({ error: "Please provide an email or number." });
+        }
+
+        const result = await client.query('DELETE FROM users WHERE number = $1 OR email = $2 RETURNING *', [number, email]);
         const user = result.rows[0];
 
-        // ------ send otp ----
+        if (!user) {
+            return res.status(404).json({ error: "User not found." });
+        }
+
+        // Generate OTP
+        const RealOTP = OTP();
+        console.log(RealOTP);
+
+        // Send OTP via email
         const emailMessage = {
             from: process.env.EMAIL_USER,
             to: user.email,
-            subject: 'Yuer OPT for Deleting accounto',
+            subject: 'Your OTP for Deleting Online Book Store Account',
             html: `
             <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-            <h2>New Job Application</h2>
-            <p><strong>${OTP}</strong> has applied for the position of <strong>${job.title}</strong>.</p>
-            <p>Thank you!</p>
-            <p>We will get back to you as soon as possible.</p>
-            <br>
-            <p>Best regards,</p>
-            <p>Company Name</p>
+                <h2>OTP for Account Deletion</h2>
+                <p>Your One-Time Password is <strong>${RealOTP}</strong></p>
+                <p>Thank you! Please keep this OTP confidential.</p>
+                <br>
+                <p>Online Book Store</p>
             </div>`
-          };
-        sendEmail.sendEmail({
+        };
 
-        })
+        sendEmail.sendMail(emailMessage, (error, info) => {
+            if (error) {
+                console.error('Email send error:', error);
+            } else {
+                console.log('Email sent: ' + info.response);
+            }
+        });
+
+        res.status(200).json({ message: "OTP sent to email." });
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
