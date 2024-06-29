@@ -1,7 +1,9 @@
+const storeOTP = require("./StoreOTP");
+
 function verifyOTP(email, otp) {
-    const storedOTP = otpStore[email];
+    const storedOTP = storeOTP[email];
     if (storedOTP && storedOTP.otp === otp && storedOTP.expiresAt > Date.now()) {
-      delete otpStore[email];
+      delete storeOTP[email];
       return true;
     }
     return false;
