@@ -62,8 +62,8 @@ exports.login = async (req, res) => {
 
 exports.generateOTP = async (req, res) => {
     try {
-        const { email } = req.body;
-        const result = await client.query('SELECT * FROM users WHERE email = $1', [email]);
+        const { Email } = req.body;
+        const result = await client.query('SELECT * FROM users WHERE Email = $1', [Email]);
         const user = result.rows[0];
 
         if (!user) {
@@ -71,10 +71,10 @@ exports.generateOTP = async (req, res) => {
         }
 
         // Generate OTP
-        const RealOTP = OTP();
-        const email2 = user.email;
-        console.log(RealOTP);
-        storeOTP(email2, RealOTP);
+        const otp = OTP();
+        const email = user.email;
+        console.log(otp);
+        storeOTP(email, otp);
         // Send OTP via email
         const emailMessage = {
             from: process.env.EMAIL_USER,
@@ -83,7 +83,7 @@ exports.generateOTP = async (req, res) => {
             html: `
         <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
             <h2>OTP for Account Deletion</h2>
-            <p>Your One-Time Password is <strong>${RealOTP}</strong></p>
+            <p>Your One-Time Password is <strong>${otp}</strong></p>
             <p>Thank you! Please keep this OTP confidential.</p>
             <br>
             <p>Online Book Store</p>
@@ -107,8 +107,8 @@ exports.generateOTP = async (req, res) => {
 
 exports.deleteAccount = async (req, res) => {
     try {
-        const { email2, RealOTP } = req.body;
-        if (verifyOTP(email2, RealOTP)) {
+        const { email, otp } = req.body;
+        if (verifyOTP(email, otp)) {
             res.json({ message: 'OTP verified' });
         } else {
             res.status(401).json({ message: 'Invalid OTP' });
