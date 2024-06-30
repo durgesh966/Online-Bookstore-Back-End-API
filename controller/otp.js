@@ -1,3 +1,11 @@
+const otpGenerator = require('otp-generator');
+// generate otp
+const OTPgenrator = () => {
+    const OTP = otpGenerator.generate(4, { upperCaseAlphabets: false, specialChars: false, lowerCaseAlphabets: false });
+    return OTP;
+}
+
+// store otp
 const otpStore = {};
 
 function storeOTP(email, otp) {
@@ -5,6 +13,7 @@ function storeOTP(email, otp) {
   return otpStore[email];
 }
 
+// varify give otp
 function verifyOTP(email) {
   const record = otpStore[email];
   if (!record) {
@@ -19,4 +28,4 @@ function verifyOTP(email) {
   return record.otp;
 }
 
-module.exports = { storeOTP, verifyOTP };
+module.exports = { OTPgenrator, storeOTP, verifyOTP, };

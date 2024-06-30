@@ -2,8 +2,8 @@ const client = require("../database/PostgreSQL");
 const bcrypt = require("bcrypt");
 const { jwtAuthMiddleware, generateToken } = require("./jwt");
 const sendEmail = require('../middleware/nodeMailer');
-const OTP = require("../middleware/otpGen");
-const { storeOTP, verifyOTP } = require("../middleware/StoreOTPvarify");
+// const OTP = require("../middleware/otpGen");
+const { OTPgenrator, storeOTP, verifyOTP } = require("../controller/otp");
 
 exports.register = async (req, res) => {
     try {
@@ -70,7 +70,7 @@ exports.generateOTP = async (req, res) => {
         }
 
         // Generate OTP
-        const otp = OTP();
+        const otp = OTPgenrator();
         const email = user.email;
         console.log(otp);
         storeOTP(email, otp);
