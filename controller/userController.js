@@ -78,10 +78,10 @@ exports.generateOTP = async (req, res) => {
         const emailMessage = {
             from: process.env.EMAIL_USER,
             to: user.email,
-            subject: 'Your OTP for Deleting Online Book Store Account',
+            subject: 'Your OTP Online Book Store Account',
             html: `
         <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-            <h2>OTP for Account Deletion</h2>
+            <h2>OTP for Online Book Store Account</h2>
             <p>Your One-Time Password is <strong>${otp}</strong></p>
             <p>Thank you! Please keep this OTP confidential.</p>
             <br>
