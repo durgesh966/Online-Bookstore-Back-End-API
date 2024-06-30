@@ -104,6 +104,35 @@ exports.generateOTP = async (req, res) => {
     }
 }
 
+exports.forgotpassword = async (req, res) => {
+    try {
+      const { email, otp, newPassword } = req.body;
+  
+      if (!email) {
+        return res.status(400).json({ error: "Please provide an email." });
+      }
+  
+      if (!verifyOTP(email, otp)) {
+        return res.status(401).json({ error: 'Invalid OTP' });
+      }
+  
+      const securePassword = await bcrypt.hash(newPassword, 10);
+      const result = await client.query('UPDATE users SET password = $1 WHERE email = $2 RETURNING *', [securePassword, email]);
+      const user = result.rows[0];
+  
+      if (!user) {
+        return res.status(404).json({ error: "User not found." });
+      }
+  
+      return res.status(200).json({ message: "Password reset successfully." });
+  
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+  };
+  
+
 exports.deleteAccount = async (req, res) => {
     try {
       const { email, otp } = req.body;
