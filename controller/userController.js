@@ -3,8 +3,7 @@ const bcrypt = require("bcrypt");
 const { jwtAuthMiddleware, generateToken } = require("./jwt");
 const sendEmail = require('../middleware/nodeMailer');
 const OTP = require("../middleware/otpGen");
-const storeOTP = require("../middleware/StoreOTP");
-const verifyOTP = require("../middleware/VarifyOTP");
+const { storeOTP, verifyOTP } = require("../middleware/StoreOTPvarify");
 
 exports.register = async (req, res) => {
     try {
@@ -107,29 +106,27 @@ exports.generateOTP = async (req, res) => {
 
 exports.deleteAccount = async (req, res) => {
     try {
-        const { email, otp } = req.body;
-        if (verifyOTP(email, otp)) {
-            res.json({ message: 'OTP verified' });
-        } else {
-            res.status(401).json({ message: 'Invalid OTP' });
-        };
-
-
-        // if (!number && !email) {
-        //     return res.status(400).json({ error: "Please provide an email or number." });
-        // }
-
-        // const result = await client.query('DELETE FROM users WHERE number = $1 OR email = $2 RETURNING *', [number, email]);
-        // const user = result.rows[0];
-
-        // if (!user) {
-        //     return res.status(404).json({ error: "User not found." });
-        // }
-
-        // res.status(200).json({ message: "OTP sent to email." });
-
+      const { email, otp } = req.body;
+  
+      if (!email) {
+        return res.status(400).json({ error: "Please provide an email." });
+      }
+  
+      if (!verifyOTP(email, otp)) {
+        return res.status(401).json({ error: 'Invalid OTP' });
+      }
+  
+      const result = await client.query('DELETE FROM users WHERE email = $1 RETURNING *', [email]);
+      const user = result.rows[0];
+  
+      if (!user) {
+        return res.status(404).json({ error: "User not found." });
+      }
+  
+      return res.status(200).json({ message: "User deleted successfully." });
+  
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Internal Server Error' });
+      console.error(error);
+      return res.status(500).json({ error: 'Internal Server Error' });
     }
-};
+  };
