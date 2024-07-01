@@ -2,7 +2,7 @@ const client = require("../database/PostgreSQL");
 const bcrypt = require("bcrypt");
 const { jwtAuthMiddleware, generateToken } = require("./jwt");
 const sendEmail = require('../middleware/nodeMailer');
-// const OTP = require("../middleware/otpGen");
+
 const { OTPgenrator, storeOTP, verifyOTP } = require("../controller/otp");
 
 exports.register = async (req, res) => {
@@ -61,8 +61,27 @@ exports.login = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
   try {
-      const {password, username, email, number, address, location, country } = req.body;
-      
+    const { password, username, email, number, address, location, country } = req.body;
+
+    if (!password || !username || !email || !number || !address || !location || !country) {
+      res.status(400).json({ error: "plese chack input field" });
+    }
+    const result = await client.query('SELECT * FROM users WHERE email = $1 OR number = $2 ', [email, number]);
+    if (result.rows.length === 0) {
+      res.status(300).json({ error: "user not found" });
+    };
+
+    const user = result.rows[0];
+    const correctPassword = await bcrypt.compare(password, user.password);
+
+    if (!correctPassword) {
+      res.status(404).json({ error: "passwor is incorrect plese enter valid password" });
+    };
+
+    const upsateResult = await client.query('UPDATE users SET username = $1, email = $2, number = $3, address = $4, location = $5, country = $6 WHERE email = $7 RETURNING *', [username, email, number, address, location, country, email]);
+    const output = upsateResult.rows[0];
+
+    return res.status(200).json({ user: output, message: "User Profile Update successful." });
 
   } catch (error) {
     console.error(error);
