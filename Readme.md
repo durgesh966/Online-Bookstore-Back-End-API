@@ -7,27 +7,70 @@ The Online Bookstore backend is a RESTful API that provides functionalities for 
 
 ### User APIs
 - **User Registration**
-  - **Endpoint**: `POST /api/users/register`
+  - **Endpoint**: `POST user/register`
   - **Description**: Allows users to create an account.
   - **Request Body**:
     ```json
     {
-      "username": "string",
-      "password": "string",
-      "email": "string"
+    "username":"Durgesh Bisen", 
+    "password":"dallu", 
+    "email":"webdev.durgesh@gmail.com", 
+    "number":"9669931361", 
+    "address":"Khandwa Madhya Pradesh", 
+    "location":"Khandwa", 
+    "country":"India"
     }
     ```
 
 - **User Login**
-  - **Endpoint**: `POST /api/users/login`
+  - **Endpoint**: `POST /user/login`
   - **Description**: Enables users to log in to their accounts.
   - **Request Body**:
     ```json
     {
-      "username": "string",
-      "password": "string"
+    "email":"webdev.durgesh@gmail.com", 
+    "password":"durgesh"
     }
     ```
+
+    - **User Update**
+  - **Endpoint**: `PUT /user/updateUser`
+  - **Description**: Enables users to update information in to their accounts.
+  - **Request Body**:
+    ```json
+    {
+    "password":"dallu", 
+    "username":"Dallu Thakur", 
+    "email":"webdev.durgesh@gmail.com", 
+    "number":"9669931360", 
+    "address":"surgaon Banjari kalkapuram", 
+    "location":"Khandwa", 
+    "country":"India"
+    }
+    ```
+
+    - **User Send OTP for user forgate password and delete account**
+  - **Endpoint**: `POST /user/generateotp`
+  - **Description**: Enables users to send OTP on registerd email address for delete account and forgate password.
+  - **Request Body**:
+    ```json
+    {
+    "Email":"webdev.durgesh@gmail.com"
+    }
+    ```
+
+    - **User forgate password and update password**
+  - **Endpoint**: `POST http://localhost:3000/user/forgotpassword`
+  - **Description**: Enables users to log in to their accounts.
+  - **Request Body**:
+    ```json
+    {
+    "email":"webdev.durgesh@gmail.com",
+    "otp": 5477,
+    "newPassword":"dallu"
+    }
+    ```
+    
 
 ### Book APIs
 - **Browse Books**
