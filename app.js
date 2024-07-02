@@ -16,7 +16,7 @@ const logRequest = require("./middleware/logRequest");
 
 // import routes
 const userRoute = require("./routes/users");
-const adminRoute = require("./routes/admin");
+const AdminRoute = require("./routes/admin");
 const bookRoute = require("./routes/books");
 const cartRoute = require("./routes/cart");
 const orderRoute = require("./routes/orders");
@@ -34,7 +34,7 @@ app.get("/", (req, res) => {
 
 // routs 
 app.use("/user", userRoute);
-// app.use("/admin", adminRoute);
+app.use("/admin", AdminRoute);
 // app.use("/book", bookRoute);
 // app.use("/cart", cartRoute);
 // app.use("/order", orderRoute);
