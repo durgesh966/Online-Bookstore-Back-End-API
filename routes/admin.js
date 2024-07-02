@@ -7,7 +7,7 @@ const { AdminRegister, AdminLogin, UpdateAdmin, GenerateOTP, ForgotAdminPassword
 
 router.post("/AdminSignup", AdminRegister);
 router.post("/AdminLogin", AdminLogin);
-router.put("/UpdateAdminProfile", jwtAuthMiddleware, upload.single("photos"), UpdateAdmin);
+router.put("/UpdateAdminProfile", jwtAuthMiddleware, upload.single("photo"), UpdateAdmin);
 router.post("/GenerateOTP", jwtAuthMiddleware, GenerateOTP);
 router.put("/ForgotAdminPassword", jwtAuthMiddleware, ForgotAdminPassword);
 router.delete("/DeleteAdminAccount", jwtAuthMiddleware, DeleteAdminAccount);

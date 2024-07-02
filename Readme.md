@@ -170,7 +170,8 @@ It looks like you've provided the description and request bodies for various adm
     "number": "9669931361",
     "address": "Khandwa Madhya Pradesh",
     "location": "Khandwa",
-    "country": "India"
+    "country": "India",
+    "photo:":"photo name"
   }
   ```
 
@@ -209,7 +210,7 @@ It looks like you've provided the description and request bodies for various adm
     "otp": "123456"  // OTP received via email for verification
   }
   ```
-  
+
 
 - **Manage Inventory**
   - **Add Book**

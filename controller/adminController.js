@@ -61,9 +61,9 @@ exports.AdminLogin = async (req, res) => {
 exports.UpdateAdmin = async (req, res) => {
   try {
     const { password, username, email, number, address, location, country } = req.body;
-    const photos = req.file ? req.file.filename : null;
+    const photo = req.file ? req.file.filename : null;
 
-    if (!password || !username || !email || !number || !address || !location || !country || !photos) {
+    if (!password || !username || !email || !number || !address || !location || !country || !photo ) {
       res.status(400).json({ error: "Please check input field" });
     }
     const result = await client.query('SELECT * FROM admin WHERE email = $1 OR number = $2', [email, number]);
@@ -79,8 +79,8 @@ exports.UpdateAdmin = async (req, res) => {
     }
 
     const updateResult = await client.query(
-      'UPDATE admin SET username = $1, email = $2, number = $3, address = $4, location = $5, country = $6, photos = $7 WHERE email = $8 RETURNING *',
-      [username, email, number, address, location, country, photos, email]
+      'UPDATE admin SET username = $1, email = $2, number = $3, address = $4, location = $5, country = $6, photo = $7 WHERE email = $8 RETURNING *',
+      [username, email, number, address, location, country, photo, email]
     );
     const output = updateResult.rows[0];
 
