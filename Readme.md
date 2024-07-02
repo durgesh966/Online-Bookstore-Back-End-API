@@ -37,6 +37,7 @@ The Online Bookstore backend is a RESTful API that provides functionalities for 
   - **Endpoint**: `PUT /user/updateUser`
   - **Description**: Enables users to update information in to their accounts.
   - **Request Body**:
+    <!-- note:- before this create a foldar name with tmp/my-uploads -->
     ```json
     {
     "password":"dallu", 
@@ -45,7 +46,8 @@ The Online Bookstore backend is a RESTful API that provides functionalities for 
     "number":"9669931360", 
     "address":"surgaon Banjari kalkapuram", 
     "location":"Khandwa", 
-    "country":"India"
+    "country":"India",
+    "photos":"image url string"
     }
     ```
 

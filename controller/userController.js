@@ -62,9 +62,9 @@ exports.login = async (req, res) => {
 exports.updateUser = async (req, res) => {
   try {
     const { password, username, email, number, address, location, country } = req.body;
-    const photo = req.file ? req.file.filename : null;
-
-    if (!password || !username || !email || !number || !address || !location || !country || !photo) {
+    const photos = req.file ? req.file.filename : null;
+    // console.log(photos);
+    if (!password || !username || !email || !number || !address || !location || !country || !photos ) {
       res.status(400).json({ error: "plese chack input field" });
     }
     const result = await client.query('SELECT * FROM users WHERE email = $1 OR number = $2 ', [email, number]);
@@ -79,7 +79,7 @@ exports.updateUser = async (req, res) => {
       res.status(404).json({ error: "passwor is incorrect plese enter valid password" });
     };
 
-    const upsateResult = await client.query('UPDATE users SET username = $1, email = $2, number = $3, address = $4, location = $5, country = $6, photo = $7 WHERE email = $8 RETURNING *', [username, email, number, address, location, country, email, photo]);
+    const upsateResult = await client.query('UPDATE users SET username = $1, email = $2, number = $3, address = $4, location = $5, country = $6, photos = $7 WHERE email = $8 RETURNING *', [username, email, number, address, location, country, photos, email]);
     const output = upsateResult.rows[0];
 
     return res.status(200).json({ user: output, message: "User Profile Update successful." });

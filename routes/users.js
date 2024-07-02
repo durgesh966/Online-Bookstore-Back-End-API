@@ -6,7 +6,7 @@ const { register, login, updateUser, generateOTP, forgotpassword, deleteAccount 
 
 router.post("/signup", register);
 router.post("/login", login);
-router.put("/updateUser", upload.single("photo"), updateUser);
+router.put("/updateUser", upload.single("photos"), updateUser);
 router.post("/generateotp", generateOTP);
 router.delete("/delete", deleteAccount);
 router.put("/forgotpassword", forgotpassword);
