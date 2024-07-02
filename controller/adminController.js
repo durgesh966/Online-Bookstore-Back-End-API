@@ -1,6 +1,6 @@
 const client = require("../database/PostgreSQL");
 const bcrypt = require("bcrypt");
-const { jwtAuthMiddleware, generateToken } = require("../utils/jwt");
+const { jwtAuthMiddleware, generateAdminToken } = require("../utils/jwt");
 const sendEmail = require('../middleware/nodeMailer');
 const { OTPgenrator, storeOTP, verifyOTP } = require("../utils/otp");
 
@@ -18,7 +18,7 @@ exports.AdminRegister = async (req, res) => {
       id: result.id,
       email: result.email
     };
-    const token = generateToken(payload);
+    const token = generateAdminToken(payload);
     console.log("Token is : ", token);
 
     res.status(200).json({ response: result.rows[0], token: token });
@@ -48,7 +48,7 @@ exports.AdminLogin = async (req, res) => {
       id: user.id,
       email: user.email
     };
-    const token = generateToken(payload);
+    const token = generateAdminToken(payload);
     console.log("Token is", token);
 
     res.status(201).json({ message: "Login successful", token: token });
