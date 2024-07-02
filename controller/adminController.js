@@ -7,6 +7,11 @@ const { OTPgenrator, storeOTP, verifyOTP } = require("../utils/otp");
 exports.AdminRegister = async (req, res) => {
   try {
     const { username, password, email, number, address, location, country } = req.body;
+
+    const admin = await client.query('SELECT * FROM admin WHERE email = $1 OR number = $2', [email, number]);
+    if (admin.rows.length > 0) {
+      res.status(300).json({ error: "Alredy have a Admin Account please login" });
+    }
     const securePassword = await bcrypt.hash(password, 10);
 
     const result = await client.query(
