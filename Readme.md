@@ -124,17 +124,92 @@ The Online Bookstore backend is a RESTful API that provides functionalities for 
   - **Endpoint**: `GET /api/orders`
   - **Description**: Allows users to view their order history.
 
+It looks like you've provided the description and request bodies for various admin APIs, but there are a few corrections and improvements needed to align with typical API practices and functionality. Let's refine these descriptions and request bodies based on standard conventions:
+
 ### Admin APIs
-- **Admin Login**
-  - **Endpoint**: `POST /api/admin/login`
-  - **Description**: Enables admin users to log in to the admin panel.
-  - **Request Body**:
-    ```json
-    {
-      "username": "string",
-      "password": "string"
-    }
-    ```
+
+#### Admin Signup
+
+- **Endpoint**: `POST http://localhost:3000/admin/AdminSignup`
+- **Description**: Allows admin users to register into the admin panel.
+- **Request Body**:
+  ```json
+  {
+    "username": "Durgesh Bisen",
+    "password": "dallu",
+    "email": "webdev.durgesh@gmail.com",
+    "number": "9669931361",
+    "address": "Khandwa Madhya Pradesh",
+    "location": "Khandwa",
+    "country": "India"
+  }
+  ```
+
+#### Admin Login
+
+- **Endpoint**: `POST http://localhost:3000/admin/AdminLogin`
+- **Description**: Allows admin users to log into the admin panel.
+- **Request Body**:
+  ```json
+  {
+    "email": "webdev.durgesh@gmail.com",
+    "password": "dallu"
+  }
+  ```
+
+#### Update Admin Profile
+
+- **Endpoint**: `PUT http://localhost:3000/admin/UpdateAdminProfile`
+- **Description**: Allows admin users to update their profile information.
+- **Request Body**:
+  ```json
+  {
+    "password": "dallu",
+    "username": "Durgesh Thakur",
+    "email": "webdev.durgesh@gmail.com",
+    "number": "9669931361",
+    "address": "Khandwa Madhya Pradesh",
+    "location": "Khandwa",
+    "country": "India"
+  }
+  ```
+
+#### Generate OTP
+
+- **Endpoint**: `POST http://localhost:3000/admin/GenerateOTP`
+- **Description**: Generates and sends OTP to the registered email for password reset.
+- **Request Body**:
+  ```json
+  {
+    "email": "webdev.durgesh@gmail.com"
+  }
+  ```
+
+#### Forgot Admin Password
+
+- **Endpoint**: `PUT http://localhost:3000/admin/ForgotAdminPassword`
+- **Description**: Allows admin users to reset their password using OTP.
+- **Request Body**:
+  ```json
+  {
+    "email": "webdev.durgesh@gmail.com",
+    "otp": "123456",  // OTP received via email
+    "newPassword": "newpassword"
+  }
+  ```
+
+#### Delete Admin Account
+
+- **Endpoint**: `DELETE http://localhost:3000/admin/DeleteAdminAccount`
+- **Description**: Allows admin users to permanently delete their account after OTP verification.
+- **Request Body**:
+  ```json
+  {
+    "email": "webdev.durgesh@gmail.com",
+    "otp": "123456"  // OTP received via email for verification
+  }
+  ```
+  
 
 - **Manage Inventory**
   - **Add Book**
@@ -173,6 +248,10 @@ The Online Bookstore backend is a RESTful API that provides functionalities for 
   - **View Orders**
     - **Endpoint**: `GET /api/admin/orders`
     - **Description**: Allows admins to view customer orders.
+
+
+
+
 
 ## Installation
 1. Clone the repository:
