@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const upload = require("../middleware/multer");
-const { jwtAuthMiddleware, generateToken } = require("../controller/jwt");
+const { jwtAuthMiddleware, generateToken } = require("../utils/jwt");
 
 const { register, login, updateUser, generateOTP, forgotpassword, deleteAccount } = require("../controller/userController");
 
