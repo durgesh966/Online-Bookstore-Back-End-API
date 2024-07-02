@@ -5,7 +5,7 @@ const sendEmail = require('../middleware/nodeMailer');
 
 const { OTPgenrator, storeOTP, verifyOTP } = require("../controller/otp");
 
-exports.register = async (req, res) => {
+exports.register =  async (req, res) => {
   try {
     const { username, password, email, number, address, location, country } = req.body;
     const securePassword = await bcrypt.hash(password, 10);
@@ -59,7 +59,7 @@ exports.login = async (req, res) => {
   }
 };
 
-exports.updateUser = async (req, res) => {
+exports.updateUser =  async (req, res) => {
   try {
     const { password, username, email, number, address, location, country } = req.body;
     const photos = req.file ? req.file.filename : null;
