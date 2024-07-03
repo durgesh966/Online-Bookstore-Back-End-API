@@ -35,7 +35,7 @@ app.get("/", (req, res) => {
 // routs 
 app.use("/user", userRoute);
 app.use("/admin", AdminRoute);
-// app.use("/book", bookRoute);
+app.use("/book", bookRoute);
 // app.use("/cart", cartRoute);
 // app.use("/order", orderRoute);
 

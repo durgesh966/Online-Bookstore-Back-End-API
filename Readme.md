@@ -219,11 +219,20 @@ It looks like you've provided the description and request bodies for various adm
     - **Request Body**:
       ```json
       {
-        "title": "string",
-        "author": "string",
-        "category": "string",
-        "price": "number",
-        "description": "string"
+        "title": "Mystery of the Lost City",
+        "author": "Jane Smith",
+        "description": "A thrilling mystery set in an ancient city.",
+        "publisher": "Mystery House",
+        "published_date": "2019-11-22",
+        "language": "English",
+        "pages": 280,
+        "price": 15.99,
+        "quantity": 30,
+        "photo": "lost_city.jpg",
+        "gallery": [
+                     "city1.jpg",
+                     "city2.jpg"
+                   ]
       }
       ```
 
