@@ -96,19 +96,21 @@ The Online Bookstore backend is a RESTful API that provides functionalities for 
 
 ### Shopping Cart APIs
 - **Add to Cart**
-  - **Endpoint**: `POST /api/cart`
+  - **Endpoint**: `POST http://localhost:3000/cart/addToCart`
   - **Description**: Allows users to add books to their shopping cart.
   - **Request Body**:
     ```json
     {
-      "bookId": "string",
-      "quantity": "integer"
+      "user_id": 10, 
+      "product_id": 8207207864, 
+      "quantity":"5"
     }
     ```
 
 - **View Cart**
-  - **Endpoint**: `GET /api/cart`
+  - **Endpoint**: `GET http://localhost:3000/cart/getCartInformation/:cartID`
   - **Description**: Displays the contents of the shopping cart.
+  <!-- Ex -  -->
 
 - **Remove from Cart**
   - **Endpoint**: `DELETE /api/cart/:bookId`

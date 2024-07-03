@@ -1,5 +1,6 @@
 const generator = require('generate-serial-number');
-const { uid } = require("uid");
+const randomString = require('randomized-string');
+// const randonCartId = require("crypto-random-string");
 
 
 // ---------- generating unique ID for Book Serial Number ------------ 
@@ -10,7 +11,10 @@ const bookSerialNumber = () => {
 // --------- Genrating Unique ID for Cart ---------
 
 function cartID() {
-    return uid(20);
+    return randomString.generate({
+        charset: 'number',
+        length: 20,
+      });
 }
 
 module.exports = { bookSerialNumber, cartID };
