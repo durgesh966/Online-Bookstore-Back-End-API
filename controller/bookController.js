@@ -1,4 +1,5 @@
 const client = require("../database/PostgreSQL");
+const { bookSerialNumber } = require("../middleware/bookSerialNumGenerator");
 
 exports.uploadBookRoute = async (req, res) => {
     try {
