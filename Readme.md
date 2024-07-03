@@ -214,7 +214,7 @@ It looks like you've provided the description and request bodies for various adm
 
 - **Manage Inventory**
   - **Add Book**
-    - **Endpoint**: `POST /api/admin/books`
+    - **Endpoint**: `POST http://localhost:3000/book/uploadBook`
     - **Description**: Allows admins to add a new book to the inventory.
     - **Request Body**:
       ```json
@@ -238,16 +238,27 @@ It looks like you've provided the description and request bodies for various adm
       <!-- NOTE - Photo And Gallery Upload imgae using form data -->
 
   - **Edit Book**
-    - **Endpoint**: `PUT /api/admin/books/:bookId`
+    - **Endpoint**: `PUT http://localhost:3000/book/updateBook/:serialNumber`
+    <!-- Ex - http://localhost:3000/book/updateBook/9839291938 -->
     - **Description**: Allows admins to edit an existing book in the inventory.
     - **Request Body**:
+      <!-- change Date -->
       ```json
       {
-        "title": "string",
-        "author": "string",
-        "category": "string",
-        "price": "number",
-        "description": "string"
+        "title": "Mystery of the Lost City",
+        "author": "Jane Smith",
+        "description": "A thrilling mystery set in an ancient city.",
+        "publisher": "Mystery House",
+        "published_date": "2019-11-23",
+        "language": "English",
+        "pages": 280,
+        "price": 15.99,
+        "quantity": 30,
+        "photo": "lost_city.jpg",   
+        "gallery": [
+                     "city1.jpg",
+                     "city2.jpg"
+                   ]
       }
       ```
 
