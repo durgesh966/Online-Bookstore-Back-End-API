@@ -12,7 +12,6 @@ exports.uploadBookRoute = async (req, res) => {
             return res.status(400).json({ error: "Please check all input fields" });
         }
 
-        // Convert gallery to a JSON array
         const galleryJson = JSON.stringify(gallery);
 
         const result = await client.query(
@@ -30,7 +29,6 @@ exports.uploadBookRoute = async (req, res) => {
 exports.updateBookRoute = async (req, res) => {
     try {
         const { serialNumber } = req.params;
-        console.log(serialNumber);
         const { title, author, description, publisher, published_date, language, pages, price, quantity } = req.body;
         const photo = req.files && req.files['photo'] ? req.files['photo'][0].filename : null;
         const gallery = req.files && req.files['gallery'] ? req.files['gallery'].map(file => file.filename) : null;
@@ -60,3 +58,26 @@ exports.updateBookRoute = async (req, res) => {
         res.status(500).json({ error: "Internal Server Error" });
     }
 }
+
+exports.deleteBookRoute = async (req, res) => {
+    try {
+        const { serialNumber } = req.params;
+        console.log(serialNumber);
+        if (!serialNumber) {
+            return res.status(300).JSON({ error: "Book Serial Number Not Found" });
+        }
+
+        const BookResult = await client.query('DELETE FROM books WHERE serialNumber = $1 RETURNING *', [serialNumber]);
+        const book = BookResult.rows[0];
+
+        if (!book) {
+            return res.status(404).json({ error: "Book not found." });
+        }
+
+        return res.status(200).json({ message: "Book deleted successfully." });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).JSON({ error: "internal Server Error" });
+    }
+};

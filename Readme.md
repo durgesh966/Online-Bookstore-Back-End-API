@@ -263,7 +263,8 @@ It looks like you've provided the description and request bodies for various adm
       ```
 
   - **Delete Book**
-    - **Endpoint**: `DELETE /api/admin/books/:bookId`
+    - **Endpoint**: `DELETE http://localhost:3000/book/deleteBook/:serialNumber`
+    <!-- Ex - http://localhost:3000/book/deleteBook/4841877989 -->
     - **Description**: Allows admins to delete a book from the inventory.
 
 - **Manage Orders**
