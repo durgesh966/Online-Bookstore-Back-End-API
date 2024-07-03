@@ -3,10 +3,19 @@ const router = express.Router();
 const upload = require("../middleware/multer");
 const { userJWTAuthMiddleware, generateUserToken, adminJWTAuthMiddleware, generateAdminToken } = require("../utils/jwt");
 
-const { getAllBooks, searchBookRoute, uploadBookRoute, updateBookRoute, deleteBookRoute } = require("../controller/bookController");
+const {
+    getAllBooks,
+    searchBookRoute,
+    viewBookDetailsRoute,
+    // Admin Route
+    uploadBookRoute,
+    updateBookRoute,
+    deleteBookRoute
+} = require("../controller/bookController");
 
 router.get("/showAllBooks", userJWTAuthMiddleware, getAllBooks);
 router.post("/searchBook", userJWTAuthMiddleware, searchBookRoute);
+router.post("/viewBookDetails/:serialNumber", userJWTAuthMiddleware, viewBookDetailsRoute);
 
 // Admin Controll Route
 

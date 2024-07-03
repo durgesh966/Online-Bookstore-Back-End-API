@@ -39,22 +39,25 @@ exports.searchBookRoute = async (req, res) => {
 
 exports.viewBookDetailsRoute = async (req, res) => {
     try {
-        const serialNumber = req.params;
+        const { serialNumber } = req.params;
         if (!serialNumber) {
             return res.status(400).json({ error: "Book Serial Number Not Found." });
         }
-        const findedBook = await client.query("SELECT * FROM books WHERE serialNumber = $1 RETURN *", [serialNumber]);
 
-        if (findedBook.rows[0]) {
-            return res.status(300).json({ erorr: "The Serial Number Book Not Found." });
-        };
+        const findedBookResult = await client.query('SELECT * FROM books WHERE serialNumber = $1', [serialNumber]);
+        const findedBook = findedBookResult.rows[0];
 
-        res.status(200).json({ findedBook: findedBook });
+        if (!findedBook) {
+            return res.status(404).json({ error: "The Serial Number Book Not Found." });
+        }
+
+        res.status(200).json({ book: findedBook });
     } catch (error) {
         console.log(error);
-        res.status(400).json({ error: "Internal Server Error" });
+        res.status(500).json({ error: "Internal Server Error" });
     }
 };
+
 
 // Start Admin Controll Routes
 

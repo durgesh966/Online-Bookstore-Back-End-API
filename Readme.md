@@ -90,7 +90,8 @@ The Online Bookstore backend is a RESTful API that provides functionalities for 
     ```
 
 - **View Book Details**
-  - **Endpoint**: `POST /api/books/:`
+  - **Endpoint**: `POST http://localhost:3000/book/viewBookDetails/:serialNumber`
+  <!-- Ex - http://localhost:3000/book/viewBookDetails/8207207864 -->
   - **Description**: Shows detailed information about a selected book.
 
 ### Shopping Cart APIs
