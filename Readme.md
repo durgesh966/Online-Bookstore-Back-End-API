@@ -76,16 +76,21 @@ The Online Bookstore backend is a RESTful API that provides functionalities for 
 
 ### Book APIs
 - **Browse Books**
-  - **Endpoint**: `GET /api/books`
+  - **Endpoint**: `GET http://localhost:3000/book/showAllBooks`
   - **Description**: Displays a list of available books for users to browse.
 
 - **Search Books**
-  - **Endpoint**: `GET /api/books/search`
+  - **Endpoint**: `POST http://localhost:3000/book/searchBook`
   - **Description**: Allows users to search for books by title, author, or category.
-  - **Query Parameters**: `title`, `author`, `category`
+  - **Query Parameters**: 'serialnumber', 'title', 'author', 'description', 'language'
+  ```json
+    {
+      "searchKeyWord":"mystery set"
+    }
+    ```
 
 - **View Book Details**
-  - **Endpoint**: `GET /api/books/:bookId`
+  - **Endpoint**: `POST /api/books/:`
   - **Description**: Shows detailed information about a selected book.
 
 ### Shopping Cart APIs

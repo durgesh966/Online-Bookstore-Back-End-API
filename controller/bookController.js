@@ -1,6 +1,63 @@
 const client = require("../database/PostgreSQL");
 const bookSerialNumber = require("../middleware/bookSerialNumGenerator");
 
+exports.getAllBooks = async (req, res) => {
+    try {
+        const result = await client.query("SELECT * FROM books");
+        const allBooks = result.rows;
+
+        if (allBooks.length === 0) {
+            return res.status(404).json({ error: "No Books Found" });
+        }
+
+        res.status(200).json({ books: allBooks });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+}
+
+exports.searchBookRoute = async (req, res) => {
+    try {
+        const { searchKeyWord } = req.body;
+        if (!searchKeyWord) {
+            return res.status(400).json({ error: "Please Provide Book serialnumber, title, author, description Any of This" });
+        };
+
+        const searchResult = await client.query("SELECT * FROM books WHERE serialnumber ILIKE $1 OR title ILIKE $1 OR author ILIKE $1 OR description ILIKE $1 OR language ILIKE $1", [`%${searchKeyWord}%`])
+
+        if (searchResult.rows.length === 0) {
+            return res.status(404).json({ message: "No Books Found" });
+        }
+
+        return res.status(200).json({ books: searchResult.rows });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+};
+
+exports.viewBookDetailsRoute = async (req, res) => {
+    try {
+        const serialNumber = req.params;
+        if (!serialNumber) {
+            return res.status(400).json({ error: "Book Serial Number Not Found." });
+        }
+        const findedBook = await client.query("SELECT * FROM books WHERE serialNumber = $1 RETURN *", [serialNumber]);
+
+        if (findedBook.rows[0]) {
+            return res.status(300).json({ erorr: "The Serial Number Book Not Found." });
+        };
+
+        res.status(200).json({ findedBook: findedBook });
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({ error: "Internal Server Error" });
+    }
+};
+
+// Start Admin Controll Routes
+
 exports.uploadBookRoute = async (req, res) => {
     try {
         const serialNumber = bookSerialNumber();
