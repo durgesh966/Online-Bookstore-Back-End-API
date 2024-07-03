@@ -228,13 +228,14 @@ It looks like you've provided the description and request bodies for various adm
         "pages": 280,
         "price": 15.99,
         "quantity": 30,
-        "photo": "lost_city.jpg",
+        "photo": "lost_city.jpg",   
         "gallery": [
                      "city1.jpg",
                      "city2.jpg"
                    ]
       }
       ```
+      <!-- NOTE - Photo And Gallery Upload imgae using form data -->
 
   - **Edit Book**
     - **Endpoint**: `PUT /api/admin/books/:bookId`
