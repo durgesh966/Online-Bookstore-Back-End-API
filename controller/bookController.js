@@ -1,5 +1,5 @@
 const client = require("../database/PostgreSQL");
-const bookSerialNumber = require("../utils/bookSerialNumGenerator");
+const { bookSerialNumber } = require("../utils/generateUniqueID's");
 
 exports.getAllBooks = async (req, res) => {
     try {

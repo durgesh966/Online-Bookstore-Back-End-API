@@ -36,7 +36,7 @@ app.get("/", (req, res) => {
 app.use("/user", userRoute);
 app.use("/admin", AdminRoute);
 app.use("/book", bookRoute);
-// app.use("/cart", cartRoute);
+app.use("/cart", cartRoute);
 // app.use("/order", orderRoute);
 
 app.listen(port, () => {

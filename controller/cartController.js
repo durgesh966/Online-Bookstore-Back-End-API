@@ -1,10 +1,10 @@
 const client = require("../database/PostgreSQL");
-const cartID = require("../utils/generateCartID");
+const { cartID } = require("../utils/generateUniqueID's");
 
 exports.addCartRoute = async (req, res) => {
     try {
         const cart_id = cartID();
-        console.log(cart_id);
+        // console.log(cart_id);
         const { user_id, product_id, quantity } = req.body;
     } catch (error) {
         console.log(error);
