@@ -1,8 +1,7 @@
-const serialNumber = require('serial-number');
+const generator = require('generate-serial-number');
 
-const bookSerialNumber = serialNumber(function (err, value) {
-    // console.log(value);
-    return value;
-});
+const bookSerialNumber = () => {
+    return generator.generate(10);
+};
 
-module.exports = { bookSerialNumber };
+module.exports = bookSerialNumber;
