@@ -46,6 +46,23 @@ exports.getCartRoute = async (req, res) => {
     }
 };
 
-exports.deleteCartRoute = async (req, res)=>{
-  
+exports.deleteCartRoute = async (req, res) => {
+    try {
+        const { cartID } = req.params;
+
+        if (!cartID) {
+            return res.status(400).json({ error: "Please provide a Cart ID" });
+        }
+
+        const cartData = await client.query("DELETE FROM cart WHERE cart_id = $1 RETURNING *", [cartID]);
+
+        if (cartData.rowCount === 0) {
+            return res.status(404).json({ error: "Cart information not found." });
+        }
+
+        res.status(200).json({ success: "Cart item deleted successfully", cart: cartData.rows[0] });
+    } catch (error) {
+        console.error('Error deleting cart item:', error);
+        res.status(500).json({ error: "Internal server error" });
+    }
 };
