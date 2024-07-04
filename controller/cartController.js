@@ -1,6 +1,29 @@
 const client = require("../database/PostgreSQL");
 const { cartID } = require("../utils/generateUniqueID's");
 
+exports.getAllCartRoute = async (req, res) => {
+    try {
+        const userID = req.params;
+        const user_id = userID.user_Id;
+        // console.log(userID, user_id);
+        if (!user_id) {
+            return res.status(400).json({ error: "Please Provide a User ID" });
+        }
+
+        const cartData = await client.query("SELECT * FROM cart WHERE user_id = $1", [user_id]);
+        const cartItems = cartData.rows;
+
+        if (cartItems.length === 0) {
+            return res.status(404).json({ error: "No Cart Information Found." });
+        }
+
+        res.status(200).json({ cart: cartItems });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+};
+
 exports.addCartRoute = async (req, res) => {
     try {
         const cart_id = cartID();

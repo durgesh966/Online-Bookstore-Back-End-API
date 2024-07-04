@@ -106,15 +106,20 @@ The Online Bookstore backend is a RESTful API that provides functionalities for 
       "quantity":"5"
     }
     ```
-
 - **View Cart**
   - **Endpoint**: `GET http://localhost:3000/cart/getCartInformation/:cartID`
   - **Description**: Displays the contents of the shopping cart.
-  <!-- Ex -  -->
+  <!-- Ex - -->
+
+- **View Cart full information**
+  - **Endpoint**: `POST http://localhost:3000/cart/getAllCarts/:cart_id`
+  - **Description**: Displays the contents of the shopping cart.
+  <!-- Ex - http://localhost:3000/cart/getAllCarts/10 -->
 
 - **Remove from Cart**
-  - **Endpoint**: `DELETE /api/cart/:bookId`
+  - **Endpoint**: `DELETE http://localhost:3000/cart/deleteCartInformation/:cartID`
   - **Description**: Allows users to remove items from the shopping cart.
+  <!-- Ex - http://localhost:3000/cart/deleteCartInformation/35168043339183292000  -->
 
 ### Order APIs
 - **Checkout**
