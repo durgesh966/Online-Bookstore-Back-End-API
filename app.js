@@ -37,7 +37,7 @@ app.use("/user", userRoute);
 app.use("/admin", AdminRoute);
 app.use("/book", bookRoute);
 app.use("/cart", cartRoute);
-// app.use("/order", orderRoute);
+app.use("/order", orderRoute);
 
 app.listen(port, () => {
     console.log(`server listening on port http://localhost:${port}`.bgGreen.blue);

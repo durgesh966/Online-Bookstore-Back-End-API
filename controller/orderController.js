@@ -2,10 +2,27 @@ const client = require("../database/PostgreSQL");
 
 exports.addOrderRoute = async (req, res) => {
     try {
+        const { user_id, total_amount, address_line1, address_line2, city, state, postal_code, country } = req.body;
 
+        if (!user_id || !total_amount || !address_line1 || !city || !state || !postal_code || !country) {
+            return res.status(400).json({ error: "All fields are required except address_line2" });
+        }
+
+        const orderData = await client.query(
+            'INSERT INTO orders (user_id, total_amount, address_line1, address_line2, city, state, postal_code, country) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
+            [user_id, total_amount, address_line1, address_line2, city, state, postal_code, country]
+        );
+
+        const orderInfo = orderData.rows[0];
+
+        if (!orderInfo) {
+            return res.status(400).json({ error: "Failed to create order" });
+        }
+
+        res.status(200).json({ orderInfo: orderInfo });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({ error: "Internal Server Error" });
+        console.error('Error creating order:', error);
+        res.status(500).json({ error: "Internal server error" });
     }
 };
 

@@ -14,7 +14,16 @@ function cartID() {
     return randomString.generate({
         charset: 'number',
         length: 20,
-      });
+    });
 }
 
-module.exports = { bookSerialNumber, cartID };
+// --------- Genrating Unique Order ID for Cart ---------
+
+function orderID() {
+    return randomString.generate({
+        charset: 'alphabet',
+        length: 20,
+    });
+}
+
+module.exports = { bookSerialNumber, cartID, orderID };
