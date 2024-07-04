@@ -3,6 +3,134 @@
 ## Overview
 The Online Bookstore backend is a RESTful API that provides functionalities for managing users, books, shopping carts, and orders. This backend serves as the foundation for an online bookstore, enabling user registration, authentication, book browsing, and order management.
 
+# Project Setup
+
+This README file provides instructions on setting up the PostgreSQL database for the project. Before starting the project, ensure you have PostgreSQL installed and PgAdmin configured.
+
+## Prerequisites
+
+- PostgreSQL 13 or later
+- PgAdmin 4
+- Basic knowledge of SQL
+
+## Step-by-Step Guide
+
+1. **Open PgAdmin**
+   - Launch PgAdmin and connect to your PostgreSQL server.
+
+2. **Create a New Database**
+   - Right-click on the "Databases" node in the Object Explorer and select "Create" > "Database".
+   - Name the database (e.g., `Online-Book-Store`).
+
+3. **Create Tables**
+
+Copy and paste the following SQL commands into the Query Tool in PgAdmin and execute them to create the necessary tables.
+
+```sql
+-- Create the users table
+CREATE TABLE users (
+    user_id SERIAL PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL
+);
+
+-- Create the orders table
+CREATE TABLE orders (
+    order_id TEXT PRIMARY KEY,
+    user_id INT NOT NULL,
+    total_amount DECIMAL(10, 2) NOT NULL,
+    order_status VARCHAR(50) NOT NULL DEFAULT 'pending',
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    address_line1 VARCHAR(255) NOT NULL,
+    address_line2 VARCHAR(255),
+    city VARCHAR(100) NOT NULL,
+    state VARCHAR(100) NOT NULL,
+    postal_code VARCHAR(20) NOT NULL,
+    country VARCHAR(100) NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
+-- Create the order_items table
+CREATE TABLE order_items (
+    order_item_id SERIAL PRIMARY KEY,
+    order_id INT NOT NULL,
+    product_id INT NOT NULL,
+    quantity INT NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (order_id) REFERENCES orders(order_id),
+    FOREIGN KEY (product_id) REFERENCES products(product_id)
+);
+
+-- Create the cart table
+CREATE TABLE cart (
+    cart_id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL,
+    product_id INT NOT NULL,
+    quantity INT NOT NULL DEFAULT 1,
+    date_added TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (product_id) REFERENCES products(product_id)
+);
+
+-- Create the cart_history table
+CREATE TABLE cart_history (
+    history_id SERIAL PRIMARY KEY,
+    cart_id INT NOT NULL,
+    user_id INT NOT NULL,
+    product_id INT NOT NULL,
+    action VARCHAR(50) NOT NULL,
+    quantity INT NOT NULL,
+    action_date TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (cart_id) REFERENCES cart(cart_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (product_id) REFERENCES products(product_id)
+);
+
+-- Create the products table
+CREATE TABLE products (
+    product_id SERIAL PRIMARY KEY,
+    product_name VARCHAR(100) NOT NULL,
+    product_description TEXT,
+    price DECIMAL(10, 2) NOT NULL
+);
+
+-- Create the books table
+CREATE TABLE books (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(100) NOT NULL,
+    author VARCHAR(100) NOT NULL,
+    category VARCHAR(50),
+    price DECIMAL(10, 2) NOT NULL,
+    description TEXT
+);
+
+-- Create the admin table
+CREATE TABLE admin (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(100) NOT NULL
+);
+```
+
+## Verify Tables
+
+After executing the SQL commands, verify that the tables have been created successfully:
+
+- Expand the "Schemas" node under your database.
+- Expand the "Tables" node to see the list of created tables.
+
+## Next Steps
+
+With the database and tables set up, you can proceed with the application development, integrating the PostgreSQL database with your backend and ensuring proper data handling and management.
+
+## Troubleshooting
+
+- Ensure that PostgreSQL service is running.
+- Check for any syntax errors in the SQL commands.
+- Verify foreign key references if you encounter any integrity constraint violation errors.
+
+
 ## Functionality
 
 ### User APIs

@@ -21,7 +21,8 @@ function cartID() {
 
 function orderID() {
     return randomString.generate({
-        charset: 'alphabet',
+        upperCaseOnly: true,
+        charset: "alphanumeric",
         length: 20,
     });
 }
