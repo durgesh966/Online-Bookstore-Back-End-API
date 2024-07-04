@@ -105,6 +105,7 @@ exports.getAllHistoryRoute = async (req, res) => {
         res.status(500).json({ error: "Internal Server Error" });
     }
 };
+
 exports.cartFullHistoryRoute = async (req, res) => {
     try {
         const { history_id } = req.params;
