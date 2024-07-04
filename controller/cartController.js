@@ -44,6 +44,7 @@ exports.addCartRoute = async (req, res) => {
             return res.status(400).json({ error: "Failed to add item to cart" });
         }
 
+        await client.query('INSERT INTO cart_history (cart_id, user_id, product_id, action, quantity) VALUES ($1, $2, $3, $4, $5)', [cart_id, user_id, product_id, 'add', quantity]);
         res.status(200).json({ cartInfo: cartInfo });
     } catch (error) {
         console.error('Error adding item to cart:', error);
@@ -87,5 +88,40 @@ exports.deleteCartRoute = async (req, res) => {
     } catch (error) {
         console.error('Error deleting cart item:', error);
         res.status(500).json({ error: "Internal server error" });
+    }
+};
+
+exports.getAllHistoryRoute = async (req, res) => {
+    try {
+        const historyData = await client.query('SELECT * FROM cart_history');
+
+        if (historyData.rows.length === 0) {
+            return res.status(404).json({ error: "No history found" });
+        }
+
+        res.status(200).json({ history: historyData.rows });
+    } catch (error) {
+        console.error('Error fetching history:', error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+};
+exports.cartFullHistoryRoute = async (req, res) => {
+    try {
+        const { history_id } = req.params;
+
+        if (!history_id) {
+            return res.status(400).json({ error: "History ID is required" });
+        }
+
+        const historyData = await client.query('SELECT * FROM cart_history WHERE history_id = $1', [history_id]);
+
+        if (historyData.rows.length === 0) {
+            return res.status(404).json({ error: "History not found" });
+        }
+
+        res.status(200).json({ history: historyData.rows[0] });
+    } catch (error) {
+        console.error('Error fetching history:', error);
+        res.status(500).json({ error: "Internal Server Error" });
     }
 };
