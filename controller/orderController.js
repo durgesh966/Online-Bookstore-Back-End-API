@@ -71,6 +71,37 @@ exports.viewOrderItemsRoute = async (req, res) => {
     }
 };
 
+exports.updateOrderItemsRoute = async (req, res) => {
+    try {
+        const orderID = req.params;
+        const { order_status } = req.body;
+
+        const order_id = orderID.order_id;
+        // console.log(order_id);
+
+        if (!order_id) {
+            return res.status(400).json({ error: "Order ID not found" });
+        }
+
+        if (!order_status) {
+            return res.status(400).json({ error: "Order Status not found" });
+        }
+
+        const orderData = await client.query("UPDATE orders SET order_status = $1 WHERE order_id = $2 RETURNING *", [order_status, order_id]);
+        const updatedOrderData = orderData.rows[0];
+
+        if (!updatedOrderData) {
+            return res.status(404).json({ error: "Updated Order Data Not Found" });
+        }
+
+        res.status(200).json({ orderData: updatedOrderData });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+};
+
 exports.showAllOrders = async (req, res) => {
     try {
         const allOrders = await client.query("SELECT * FROM orders");

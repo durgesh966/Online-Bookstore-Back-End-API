@@ -272,7 +272,7 @@ With the database and tables set up, you can proceed with the application develo
     ```
 
 - **View Orders**
-  - **Endpoint**: `GET /api/orders`
+  - **Endpoint**: `http://localhost:3000/order/viewOrderItems`
   - **Description**: Allows users to view their order history.
 
 It looks like you've provided the description and request bodies for various admin APIs, but there are a few corrections and improvements needed to align with typical API practices and functionality. Let's refine these descriptions and request bodies based on standard conventions:
@@ -420,8 +420,19 @@ It looks like you've provided the description and request bodies for various adm
 
 - **Manage Orders**
   - **View Orders**
-    - **Endpoint**: `GET /api/admin/orders`
+    - **Endpoint**: `GET http://localhost:3000/order/viewOrderItems`
     - **Description**: Allows admins to view customer orders.
+
+  - **Update Orders**
+    - **Endpoint**: `POST http://localhost:3000/order/UpdatwOrderItemsStatus/:order_id`
+    - **Description**: Allows admins to view customer orders.
+    <!-- EX - http://localhost:3000/order/UpdatwOrderItemsStatus/IP9P7PFEHWBHY5SFTFKN -->
+
+    ```json
+    {
+      "order_status":"completed"
+    }
+    ```
 
 
 
