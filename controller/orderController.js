@@ -29,6 +29,48 @@ exports.addOrderRoute = async (req, res) => {
     }
 };
 
+exports.orderitemsRoute = async (req, res) => {
+    try {
+        const { order_id, product_id, quantity, price } = req.body;
+
+        if (!order_id || !product_id || !quantity || !price) {
+            return res.status(400).json({ error: "All fields are required" });
+        }
+
+        const orderItemData = await client.query(
+            'INSERT INTO order_items (order_id, product_id, quantity, price) VALUES ($1, $2, $3, $4) RETURNING *',
+            [order_id, product_id, quantity, price]
+        );
+
+        const orderItem = orderItemData.rows[0];
+
+        if (!orderItem) {
+            return res.status(400).json({ error: "Failed to create order item" });
+        }
+
+        res.status(200).json({ orderItem: orderItem });
+    } catch (error) {
+        console.error('Error creating order item:', error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+};
+
+exports.viewOrderItemsRoute = async (req, res) => {
+    try {
+        const viewOrder = await client.query("SELECT * FROM orders");
+        const viewOrderData = viewOrder.rows[0];
+        if (!viewOrderData) {
+            return res.status(404).json({ error: "No Order Record Found." });
+        }
+
+        res.status(200).json({ orderItems: viewOrderData });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+};
+
 exports.showAllOrders = async (req, res) => {
     try {
         const allOrders = await client.query("SELECT * FROM orders");

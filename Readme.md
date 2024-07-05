@@ -261,7 +261,7 @@ With the database and tables set up, you can proceed with the application develo
 
 ### Order APIs
 - **Checkout**
-  - **Endpoint**: `POST /api/orders`
+  - **Endpoint**: `POST http://localhost:3000/order/orderItems`
   - **Description**: Enables users to place an order for the items in their shopping cart.
   - **Request Body**:
     ```json
